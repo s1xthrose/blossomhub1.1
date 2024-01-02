@@ -1,6 +1,6 @@
 # blossomhub
 
-A new Flutter project.
+Для запуска приложения, с корректным отображением необходимо использовать версию flutter - 3.13.9 
 
 ## Getting Started
 
