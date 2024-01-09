@@ -56,9 +56,21 @@ class WaterlogAddPage extends StatelessWidget {
           children: [
             const YourFlowersDropdown(),
             SizedBox(height: ScreenUtil().setHeight(16)),
-            TextField(
+            TextFormField(
               controller: lastWateringController,
               keyboardType: TextInputType.datetime,
+              onTap: () async {
+                DateTime? pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2101),
+                );
+
+                if (pickedDate != null && pickedDate != DateTime.now()) {
+                  lastWateringController.text = DateFormat('dd.MM.yyyy').format(pickedDate);
+                }
+              },
               decoration: InputDecoration(
                 hintText: '',
                 border: OutlineInputBorder(

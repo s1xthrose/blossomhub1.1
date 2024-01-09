@@ -232,7 +232,7 @@ class _WateringSchedulePageState extends State<WateringSchedulePage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: ScreenUtil().setWidth(65)),
+                  margin: EdgeInsets.only(left: ScreenUtil().setWidth(55)),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(
                       ScreenUtil().setWidth(12),
@@ -292,6 +292,7 @@ class _WateringSchedulePageState extends State<WateringSchedulePage> {
               style: GoogleFonts.nunito(
                 fontSize: ScreenUtil().setSp(15),
                 fontWeight: FontWeight.w600,
+                color: Colors.white
               ),
             ),
           ),

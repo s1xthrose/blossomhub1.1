@@ -23,61 +23,61 @@ class ControlPage extends StatelessWidget {
         ),
         child: Column( // Wrap the Rows in a Column
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Waterlog',
-                  style: GoogleFonts.nunito(
-                    fontSize: ScreenUtil().setSp(18),
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w800,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const WaterlogPage(),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const WaterlogPage(),
-                      ),
-                    );
-                  },
-                  child: Icon(
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Waterlog',
+                    style: GoogleFonts.nunito(
+                      fontSize: ScreenUtil().setSp(18),
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  Icon(
                     Icons.chevron_right,
                     size: ScreenUtil().setSp(26),
                     color: Colors.black,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Replanting schedule',
-                  style: GoogleFonts.nunito(
-                    fontSize: ScreenUtil().setSp(18),
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w800,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ReplantingPage(),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ReplantingPage(),
-                      ),
-                    );
-                  },
-                  child: Icon(
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Replanting schedule',
+                    style: GoogleFonts.nunito(
+                      fontSize: ScreenUtil().setSp(18),
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  Icon(
                     Icons.chevron_right,
                     size: ScreenUtil().setSp(26),
                     color: Colors.black,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

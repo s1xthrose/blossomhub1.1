@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:blossomhub/app/pages/home.page.dart';
 
 class OnboardingPage extends StatefulWidget {
-  const OnboardingPage({super.key});
+  const OnboardingPage({Key? key}) : super(key: key);
 
   @override
   _OnboardingPageState createState() => _OnboardingPageState();
@@ -16,91 +17,106 @@ class _OnboardingPageState extends State<OnboardingPage> {
   int _currentPage = 0;
 
   @override
+  void initState() {
+    super.initState();
+    _checkFirstRun();
+  }
+
+  _checkFirstRun() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isFirstRun = prefs.getBool('isFirstRun') ?? true;
+
+    if (isFirstRun) {
+      prefs.setBool('isFirstRun', false);
+    } else {
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        // Если это не первый запуск, переход
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Builder(
-        builder: (BuildContext context) {
-          ScreenUtil.init(context, designSize: const Size(393, 852));
-
-          return Scaffold(
-            backgroundColor: const Color(0xFFEBFFF0),
-            body: SafeArea(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: PageView(
-                      controller: _pageController,
-                      onPageChanged: (int page) {
-                        setState(() {
-                          _currentPage = page;
-                        });
-                      },
-                      children: const [
-                        OnboardingSlide(
-                          title: 'Welcome to BlossomHub',
-                          description: 'Your personal helper with flowers care',
-                          currentPage: 0,
-                        ),
-                        OnboardingSlide(
-                          image: 'assets/on_boarding/first_pic.png',
-                          title: 'Waterlog',
-                          description: 'Control watering of flowers\nwith our Waterlog section',
-                          currentPage: 1,
-                        ),
-                        OnboardingSlide(
-                          image: 'assets/on_boarding/second_pic.png',
-                          title: 'Replanting Schedule',
-                          description: 'You don’t forget to replant\nyour flower with our schedule',
-                          currentPage: 2,
-                        ),
-                        OnboardingSlide(
-                          image: 'assets/on_boarding/third_pic.png',
-                          title: 'Something more',
-                          description: 'Just go inside and use\nall features to make life easier',
-                          currentPage: 3,
-                        ),
-                      ],
+      home: Scaffold(
+        backgroundColor: const Color(0xFFEBFFF0),
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: (int page) {
+                    setState(() {
+                      _currentPage = page;
+                    });
+                  },
+                  children: const [
+                    OnboardingSlide(
+                      title: 'Welcome to BlossomHub',
+                      description: 'Your personal helper with flowers care',
+                      currentPage: 0,
                     ),
-                  ),
-                  SizedBox(height: 20.h),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_currentPage < 3) {
-                        _pageController.nextPage(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.ease,
-                        );
-                      } else {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const HomePage()),
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      fixedSize: Size(ScreenUtil().setWidth(229), ScreenUtil().setHeight(45)),
-                      padding: EdgeInsets.all(ScreenUtil().setWidth(8)),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(100)),
-                      ),
-                      backgroundColor: const Color(0xFFD23B6A),
+                    OnboardingSlide(
+                      image: 'assets/on_boarding/first_pic.png',
+                      title: 'Waterlog',
+                      description: 'Control watering of flowers with our Waterlog section',
+                      currentPage: 1,
                     ),
-                    child: Text(
-                      _currentPage < 3 ? 'Continue' : 'Get Started',
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(14),
-                        fontFamily: 'Nunito',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    OnboardingSlide(
+                      image: 'assets/on_boarding/second_pic.png',
+                      title: 'Replanting Schedule',
+                      description: 'You don’t forget to replant your flower with our schedule',
+                      currentPage: 2,
                     ),
-                  ),
-                  SizedBox(height: 32.h),
-                ],
+                    OnboardingSlide(
+                      image: 'assets/on_boarding/third_pic.png',
+                      title: 'Something more',
+                      description: 'Just go inside and use all features to make life easier',
+                      currentPage: 3,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+              SizedBox(height: 20.h),
+              ElevatedButton(
+                onPressed: () {
+                  if (_currentPage < 3) {
+                    _pageController.nextPage(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.ease,
+                    );
+                  } else {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => const HomePage()),
+                    );
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  fixedSize: Size(ScreenUtil().setWidth(229), ScreenUtil().setHeight(45)),
+                  padding: EdgeInsets.all(ScreenUtil().setWidth(8)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(ScreenUtil().setWidth(100)),
+                  ),
+                  backgroundColor: const Color(0xFFD23B6A),
+                ),
+                child: Text(
+                  _currentPage < 3 ? 'Continue' : 'Get Started',
+                  style: GoogleFonts.nunito(
+                    fontSize: ScreenUtil().setSp(14),
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(height: 32.h),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -161,7 +177,7 @@ class OnboardingSlide extends StatelessWidget {
               ),
             SizedBox(height: 9.h),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: currentPage == 0 ? 70 : 0),
+              padding: EdgeInsets.symmetric(horizontal: currentPage == 0 ? 60 : 0),
               child: Text(
                 title,
                 textAlign: TextAlign.center,
@@ -174,9 +190,9 @@ class OnboardingSlide extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 9.h),
+            SizedBox(height: 4.h),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: currentPage == 0 ? 62 : 0),
+              padding: EdgeInsets.symmetric(horizontal: 32.0),
               child: Text(
                 description,
                 textAlign: TextAlign.center,
@@ -196,7 +212,3 @@ class OnboardingSlide extends StatelessWidget {
     );
   }
 }
-
-
-
-

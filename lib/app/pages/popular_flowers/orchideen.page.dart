@@ -49,7 +49,7 @@ class OrchideenPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(width: 16),
+                SizedBox(width: 11),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

@@ -99,7 +99,7 @@ class _ReplantingPageState extends State<ReplantingPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(ScreenUtil().setWidth(16)),
         ),
-        child: Icon(Icons.add),
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }

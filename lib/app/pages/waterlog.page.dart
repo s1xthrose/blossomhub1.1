@@ -109,7 +109,7 @@ class _WaterlogPageState extends State<WaterlogPage> {
                       children: [
                         ListTile(
                           title: Padding(
-                            padding: EdgeInsets.only(top: 10.h),
+                            padding: EdgeInsets.only(top: 0.h),
                             child: Text(
                               lastRecord.flowerName,
                               style: TextStyle(
@@ -215,7 +215,7 @@ class _WaterlogPageState extends State<WaterlogPage> {
           borderRadius: BorderRadius.circular(ScreenUtil().setWidth(16)),
         ),
         mini: false,
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

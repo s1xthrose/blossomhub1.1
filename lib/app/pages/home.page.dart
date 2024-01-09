@@ -33,6 +33,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   Widget _buildTabItem(int index, IconData icon, String label) {
+    double iconSize = ScreenUtil().setSp(24);
+    double labelSize = ScreenUtil().setSp(12);
+
     return Column(
       children: [
         ElevatedButton(
@@ -54,14 +57,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           child: Icon(
             icon,
             color: _tabController.index == index ? Colors.black : Colors.black,
-            size: ScreenUtil().setSp(24),
+            size: iconSize,
           ),
         ),
         SizedBox(height: ScreenUtil().setHeight(4)),
         Text(
           label,
           style: GoogleFonts.nunito(
-            fontSize: ScreenUtil().setSp(12),
+            fontSize: labelSize,
             fontStyle: FontStyle.normal,
             fontWeight: FontWeight.w600,
             color: _tabController.index == index
@@ -75,7 +78,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, designSize: const Size(393, 873));
+    double leftPadding = ScreenUtil().setWidth(16);
+    double topPadding = ScreenUtil().setWidth(65);
+
     return Scaffold(
       body: TabBarView(
         controller: _tabController,
@@ -111,20 +116,25 @@ class WelcomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double leftPadding = ScreenUtil().setWidth(16);
+    double topPadding = ScreenUtil().setWidth(65);
+    double welcomeFontSize = ScreenUtil().setSp(17);
+    double yourFlowersFontSize = ScreenUtil().setSp(18);
+    double cardWidth = ScreenUtil().setWidth(160);
+    double cardHeight = ScreenUtil().setHeight(128);
+    double cardBorderRadius = ScreenUtil().setWidth(12);
+    double cardImageHeight = ScreenUtil().setHeight(137);
+    double cardImageWidth = ScreenUtil().setWidth(139);
+
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-        ScreenUtil().setWidth(16),
-        ScreenUtil().setWidth(65),
-        0,
-        0,
-      ),
+      padding: EdgeInsets.fromLTRB(leftPadding, topPadding, 0, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Welcome',
             style: GoogleFonts.nunito(
-              fontSize: ScreenUtil().setSp(17),
+              fontSize: welcomeFontSize,
               fontStyle: FontStyle.normal,
               fontWeight: FontWeight.w600,
               fontFeatures: [
@@ -134,37 +144,37 @@ class WelcomeWidget extends StatelessWidget {
             ),
           ),
           SizedBox(height: ScreenUtil().setHeight(41)),
-          Row(
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const YourFlowPage(),
+              ),
+            );
+          },
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Your flowers',
                 style: GoogleFonts.nunito(
-                  fontSize: ScreenUtil().setSp(18),
+                  fontSize: yourFlowersFontSize,
                   fontStyle: FontStyle.normal,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               Padding(
                 padding: EdgeInsets.only(right: ScreenUtil().setWidth(16)),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const YourFlowPage(),
-                      ),
-                    );
-                  },
-                  child: Icon(
-                    Icons.chevron_right,
-                    size: ScreenUtil().setSp(24),
-                    color: Colors.black,
-                  ),
+                child: Icon(
+                  Icons.chevron_right,
+                  size: ScreenUtil().setSp(24),
+                  color: Colors.black,
                 ),
               ),
             ],
           ),
+        ),
           SizedBox(height: ScreenUtil().setHeight(16)),
           SizedBox(
             height: ScreenUtil().setHeight(205),
@@ -177,10 +187,10 @@ class WelcomeWidget extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final flower = flowerNotifier.flowers[index];
                     return Container(
-                      width: ScreenUtil().setWidth(139),
+                      width: cardImageWidth,
                       margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(8)),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12)),
+                        borderRadius: BorderRadius.circular(cardBorderRadius),
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
@@ -194,7 +204,7 @@ class WelcomeWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12)),
+                            borderRadius: BorderRadius.circular(cardBorderRadius),
                             child: FutureBuilder(
                               future: _getResizedImage(flower.imageUrl),
                               builder: (context, snapshot) {
@@ -202,13 +212,13 @@ class WelcomeWidget extends StatelessWidget {
                                   return Image.memory(
                                     snapshot.data as Uint8List,
                                     fit: BoxFit.cover,
-                                    width: ScreenUtil().setWidth(139),
-                                    height: ScreenUtil().setHeight(137),
+                                    width: cardImageWidth,
+                                    height: cardImageHeight,
                                   );
                                 } else {
                                   return Container(
-                                    width: ScreenUtil().setWidth(139),
-                                    height: ScreenUtil().setHeight(137),
+                                    width: cardImageWidth,
+                                    height: cardImageHeight,
                                     color: Colors.grey,
                                     child: const Center(
                                       child: CircularProgressIndicator(),
@@ -256,33 +266,28 @@ class WelcomeWidget extends StatelessWidget {
           ),
           SizedBox(height: ScreenUtil().setHeight(16)),
           Container(
-            margin: EdgeInsets.only(right: 16),
-            padding: EdgeInsets.all(12),
+            margin: EdgeInsets.only(right: ScreenUtil().setWidth(16)),
+            padding: EdgeInsets.all(ScreenUtil().setWidth(12)),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
-                bottomLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12),
-              ),
+              borderRadius: BorderRadius.circular(cardBorderRadius),
               color: Color.fromRGBO(255, 255, 255, 0.55),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 12),
+                  padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
                   child: Text(
-                  'Popular flowers at this month:',
-                  style: GoogleFonts.nunito(
-                    color: Colors.black,
-                    fontSize: ScreenUtil().setSp(18),
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.5,
-                   ),
+                    'Popular flowers at this month:',
+                    style: GoogleFonts.nunito(
+                      color: Colors.black,
+                      fontSize: ScreenUtil().setSp(18),
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.5,
+                    ),
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: ScreenUtil().setHeight(8)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -296,10 +301,10 @@ class WelcomeWidget extends StatelessWidget {
                         );
                       },
                       child: Container(
-                        width: ScreenUtil().setWidth(160),
-                        height: ScreenUtil().setHeight(128),
+                        width: cardWidth,
+                        height: cardHeight,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(cardBorderRadius),
                           color: Colors.blue,
                           boxShadow: [
                             BoxShadow(
@@ -313,10 +318,10 @@ class WelcomeWidget extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      width: ScreenUtil().setWidth(160),
-                      height: ScreenUtil().setHeight(128),
+                      width: cardWidth,
+                      height: cardHeight,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(cardBorderRadius),
                         color: Colors.blue,
                         boxShadow: [
                           BoxShadow(
@@ -335,10 +340,10 @@ class WelcomeWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Container(
-                      width: ScreenUtil().setWidth(160),
-                      height: ScreenUtil().setHeight(128),
+                      width: cardWidth,
+                      height: cardHeight,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(cardBorderRadius),
                         color: Colors.blue,
                         boxShadow: [
                           BoxShadow(
@@ -351,10 +356,10 @@ class WelcomeWidget extends StatelessWidget {
                       child: YourCardWidget(imageUrl: 'assets/t_flower.png', cardText: 'Christmas Cactus'),
                     ),
                     Container(
-                      width: ScreenUtil().setWidth(160),
-                      height: ScreenUtil().setHeight(128),
+                      width: cardWidth,
+                      height: cardHeight,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(cardBorderRadius),
                         color: Colors.blue,
                         boxShadow: [
                           BoxShadow(
@@ -436,7 +441,7 @@ class YourCardWidget extends StatelessWidget {
       onTap: navigateToPage,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12)),
           color: Colors.white,
           boxShadow: [
             BoxShadow(
@@ -450,7 +455,8 @@ class YourCardWidget extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(12), bottom: Radius.circular(12)),
+              borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(12), bottom: Radius.circular(12)),
               child: Image.asset(
                 imageUrl,
                 fit: BoxFit.cover,
@@ -463,7 +469,8 @@ class YourCardWidget extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)),
+                  borderRadius: BorderRadius.vertical(
+                      bottom: Radius.circular(12)),
                   color: Colors.black.withOpacity(0.6),
                 ),
                 child: Center(

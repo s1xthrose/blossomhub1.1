@@ -96,6 +96,7 @@ class SendFeedbackPage extends StatelessWidget {
         ),
         child: const Icon(
           Icons.send,
+          color: Colors.white
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

@@ -156,15 +156,22 @@ class YourFlowPageContent extends StatelessWidget {
                   ? const Color.fromRGBO(210, 59, 106, 0.7)
                   : const Color.fromRGBO(70, 180, 48, 0.7);
 
-              return Card(
+              return Container(
                 margin: EdgeInsets.symmetric(
                   horizontal: ScreenUtil().setWidth(16.0),
                   vertical: ScreenUtil().setHeight(8.0),
                 ),
-                shape: RoundedRectangleBorder(
+                decoration: BoxDecoration(
+                  color: Colors.white, // Установите белый цвет для карточек
                   borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
-                elevation: 4,
                 child: InkWell(
                   onTap: () {
                     Provider.of<FlowerNotifier>(context, listen: false).selectFlower(flower);
@@ -237,23 +244,24 @@ class YourFlowPageContent extends StatelessWidget {
                                 SizedBox(height: ScreenUtil().setHeight(4.0)),
                                 Row(
                                   children: [
-                                    Icon(
-                                      Icons.access_time,
-                                      size: ScreenUtil().setSp(16.0),
-                                      color: _calculateIconColor(lastWateringRecord),
-                                    ),
-                                    SizedBox(width: ScreenUtil().setWidth(6.0)),
-                                    Text(
-                                      'Last watering at ${lastWateringRecord?.lastWateringDate != null && lastWateringRecord != null
-                                          ? DateFormat('dd MMM').format(lastWateringRecord.lastWateringDate!.toLocal())
-                                          : " "}',
-                                      maxLines: 3,
-                                      style: GoogleFonts.nunito(
-                                        fontSize: ScreenUtil().setSp(12.0),
-                                        fontWeight: FontWeight.w300,
-                                        color: _calculateTextColor(lastWateringRecord),
+                                    if (lastWateringRecord?.lastWateringDate != null && lastWateringRecord != null)
+                                      Icon(
+                                        Icons.access_time,
+                                        size: ScreenUtil().setSp(16.0),
+                                        color: _calculateIconColor(lastWateringRecord),
                                       ),
-                                    ),
+                                    if (lastWateringRecord?.lastWateringDate != null && lastWateringRecord != null)
+                                      SizedBox(width: ScreenUtil().setWidth(6.0)),
+                                    if (lastWateringRecord?.lastWateringDate != null && lastWateringRecord != null)
+                                      Text(
+                                        'Last watering at ${DateFormat('dd MMM').format(lastWateringRecord.lastWateringDate!.toLocal())}',
+                                        maxLines: 3,
+                                        style: GoogleFonts.nunito(
+                                          fontSize: ScreenUtil().setSp(12.0),
+                                          fontWeight: FontWeight.w300,
+                                          color: _calculateTextColor(lastWateringRecord),
+                                        ),
+                                      ),
                                   ],
                                 ),
                               ],
@@ -270,23 +278,23 @@ class YourFlowPageContent extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final newFlower = await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const YourFlowerAddPage()),
-          );
+          onPressed: () async {
+            final newFlower = await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const YourFlowerAddPage()),
+            );
 
-          if (newFlower != null) {
-            Provider.of<FlowerNotifier>(context, listen: false).addFlower(newFlower);
-            _saveFlowers(context);
-          }
-        },
-        backgroundColor: const Color.fromRGBO(210, 59, 106, 1),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(ScreenUtil().setWidth(16)),
-        ),
-        mini: false,
-        child: const Icon(Icons.add),
+            if (newFlower != null) {
+              Provider.of<FlowerNotifier>(context, listen: false).addFlower(newFlower);
+              _saveFlowers(context);
+            }
+          },
+          backgroundColor: const Color.fromRGBO(210, 59, 106, 1),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(ScreenUtil().setWidth(16)),
+          ),
+          mini: false,
+          child: const Icon(Icons.add, color: Colors.white,)
       ),
     );
   }

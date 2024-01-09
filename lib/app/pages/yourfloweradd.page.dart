@@ -342,7 +342,7 @@ class _YourFlowerAddPageState extends State<YourFlowerAddPage> {
           borderRadius: BorderRadius.circular(ScreenUtil().setWidth(16)),
         ),
         mini: false,
-        child: const Icon(Icons.check),
+        child: const Icon(Icons.check, color: Colors.white,),
       ),
     );
   }

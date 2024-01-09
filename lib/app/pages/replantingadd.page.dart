@@ -21,10 +21,22 @@ class Watering {
 }
 
 class ReplantingAddPage extends StatelessWidget {
-  final TextEditingController replantingDateController =
-  TextEditingController();
+  final TextEditingController replantingDateController = TextEditingController();
 
   ReplantingAddPage({Key? key}) : super(key: key);
+
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null && pickedDate != DateTime.now()) {
+      replantingDateController.text = DateFormat('dd.MM.yyyy').format(pickedDate);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,46 +68,34 @@ class ReplantingAddPage extends StatelessWidget {
           children: [
             const YourFlowersDropdown(),
             SizedBox(height: ScreenUtil().setHeight(16)),
-            TextField(
-              controller: replantingDateController,
-              keyboardType: TextInputType.datetime,
-              decoration: InputDecoration(
-                hintText: '',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(ScreenUtil().setWidth(4)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(ScreenUtil().setWidth(4)),
-                  borderSide: BorderSide(
+            GestureDetector(
+              onTap: () {
+                _selectDate(context);
+              },
+              child: Container(
+                width: ScreenUtil().setWidth(361),
+                height: ScreenUtil().setHeight(56),
+                padding: EdgeInsets.all(ScreenUtil().setWidth(12)),
+                decoration: BoxDecoration(
+                  border: Border.all(
                     color: const Color.fromRGBO(70, 180, 48, 1),
                     width: ScreenUtil().setWidth(1),
                   ),
-                ),
-                focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(ScreenUtil().setWidth(4)),
-                  borderSide: BorderSide(
-                    color: const Color.fromRGBO(70, 180, 48, 1),
-                    width: ScreenUtil().setWidth(1),
-                  ),
                 ),
-                labelText: 'Replanting date',
-                labelStyle: GoogleFonts.nunito(
-                  textStyle: TextStyle(
-                    fontSize: ScreenUtil().setSp(14),
-                    color: const Color.fromRGBO(70, 180, 48, 1),
-                  ),
-                ),
-                hintStyle: GoogleFonts.nunito(
-                  textStyle: TextStyle(
-                    fontSize: ScreenUtil().setSp(14),
-                    color: const Color.fromRGBO(70, 180, 48, 1),
-                  ),
-                ),
-              ),
-              style: GoogleFonts.nunito(
-                textStyle: TextStyle(
-                  fontSize: ScreenUtil().setSp(14),
-                  color: Colors.black,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Replanting date',
+                      style: GoogleFonts.nunito(
+                        textStyle: TextStyle(
+                          fontSize: ScreenUtil().setSp(14),
+                          color: const Color.fromRGBO(70, 180, 48, 1),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
