@@ -78,8 +78,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context, designSize: const Size(393, 873));
     double leftPadding = ScreenUtil().setWidth(16);
     double topPadding = ScreenUtil().setWidth(65);
+
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Уменьшаем отступы, если размер экрана уменьшается
+    if (screenWidth < 393) {
+      topPadding = ScreenUtil().setWidth(30);
+    }
 
     return Scaffold(
       body: TabBarView(
@@ -126,8 +134,19 @@ class WelcomeWidget extends StatelessWidget {
     double cardImageHeight = ScreenUtil().setHeight(137);
     double cardImageWidth = ScreenUtil().setWidth(139);
 
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Уменьшаем отступы, если размер экрана уменьшается
+    if (screenWidth < 393) {
+      topPadding = ScreenUtil().setWidth(40);
+      // Уменьшаем размеры карточек и изображений
+      cardWidth = ScreenUtil().setWidth(140);
+      cardImageHeight = ScreenUtil().setHeight(102);
+      cardImageWidth = ScreenUtil().setWidth(104);
+    }
+
     return Padding(
-      padding: EdgeInsets.fromLTRB(leftPadding, topPadding, 0, 0),
+      padding: EdgeInsets.fromLTRB(leftPadding, topPadding, 0.w, 0.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

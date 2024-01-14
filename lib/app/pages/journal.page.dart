@@ -51,6 +51,23 @@ class JournalCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double leftMargin = ScreenUtil().setWidth(16);
+    double rightMargin = ScreenUtil().setWidth(16);
+    double topMargin = ScreenUtil().setHeight(22);
+    double leftPadding = ScreenUtil().setWidth(11);
+    double rightPadding = ScreenUtil().setWidth(31);
+    double topPadding = ScreenUtil().setHeight(14);
+
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Уменьшаем отступы, если размер экрана уменьшается
+    if (screenWidth < 393) {
+      topPadding = ScreenUtil().setHeight(22);
+    }
+
+    double titleFontSize = screenWidth < 393 ? ScreenUtil().setSp(15) : ScreenUtil().setSp(17);
+    double descriptionFontSize = screenWidth < 393 ? ScreenUtil().setSp(13) : ScreenUtil().setSp(15);
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -72,15 +89,15 @@ class JournalCardWidget extends StatelessWidget {
           ),
         ),
         margin: EdgeInsets.only(
-          left: ScreenUtil().setWidth(16),
-          right: ScreenUtil().setWidth(16),
-          top: ScreenUtil().setHeight(22),
+          left: leftMargin,
+          right: rightMargin,
+          top: topMargin,
         ),
         child: Padding(
           padding: EdgeInsets.only(
-            left: ScreenUtil().setWidth(11),
-            right: ScreenUtil().setWidth(31),
-            top: ScreenUtil().setHeight(14),
+            left: leftPadding,
+            right: rightPadding,
+            top: topPadding,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +105,7 @@ class JournalCardWidget extends StatelessWidget {
               Text(
                 title,
                 style: GoogleFonts.nunito(
-                  fontSize: ScreenUtil().setSp(17),
+                  fontSize: titleFontSize,
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
                 ),
@@ -97,7 +114,7 @@ class JournalCardWidget extends StatelessWidget {
               Text(
                 description,
                 style: GoogleFonts.nunito(
-                  fontSize: ScreenUtil().setSp(15),
+                  fontSize: descriptionFontSize,
                   fontWeight: FontWeight.w400,
                   color: Colors.black,
                 ),
