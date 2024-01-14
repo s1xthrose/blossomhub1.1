@@ -68,7 +68,8 @@ class WaterlogAddPage extends StatelessWidget {
                 );
 
                 if (pickedDate != null && pickedDate != DateTime.now()) {
-                  lastWateringController.text = DateFormat('dd.MM.yyyy').format(pickedDate);
+                  lastWateringController.text =
+                      DateFormat('dd.MM.yyyy').format(pickedDate);
                 }
               },
               decoration: InputDecoration(
@@ -182,12 +183,15 @@ class WaterlogAddPage extends StatelessWidget {
   }
 
   void createWateringSchedule(BuildContext context) {
-    Flower? selectedFlower = Provider.of<FlowerNotifier>(context, listen: false).selectedFlower;
+    Flower? selectedFlower = Provider
+        .of<FlowerNotifier>(context, listen: false)
+        .selectedFlower;
 
     if (selectedFlower != null) {
       String flowerName = selectedFlower.name;
 
-      DateTime lastWateringDate = DateFormat('dd.MM.yyyy').parse(lastWateringController.text);
+      DateTime lastWateringDate = DateFormat('dd.MM.yyyy').parse(
+          lastWateringController.text);
       int wateringFrequency = int.parse(wateringFrequencyController.text);
 
       Watering watering = Watering(
@@ -198,16 +202,17 @@ class WaterlogAddPage extends StatelessWidget {
 
       print('Navigating to WateringSchedulePage with flowerName: $flowerName');
 
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => WateringSchedulePage(
-            flowerId: selectedFlower.id,
-            flowerName: flowerName,
-            imageUrl: selectedFlower.imageUrl,
-            lastWateringDate: lastWateringDate,
-            wateringFrequencyInDays: wateringFrequency,
-          ),
+          builder: (context) =>
+              WateringSchedulePage(
+                flowerId: selectedFlower.id,
+                flowerName: flowerName,
+                imageUrl: selectedFlower.imageUrl,
+                lastWateringDate: lastWateringDate,
+                wateringFrequencyInDays: wateringFrequency,
+              ),
         ),
       );
     } else {
