@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'control.page.dart';
+import 'flower_details_page.dart';
 import 'journal.page.dart';
 import 'popular_flowers/cactus.page.dart';
 import 'popular_flowers/orchideen.page.dart';
@@ -84,7 +85,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
     double screenWidth = MediaQuery.of(context).size.width;
 
-    // Уменьшаем отступы, если размер экрана уменьшается
     if (screenWidth < 393) {
       topPadding = ScreenUtil().setWidth(30);
     }
@@ -136,10 +136,8 @@ class WelcomeWidget extends StatelessWidget {
 
     double screenWidth = MediaQuery.of(context).size.width;
 
-    // Уменьшаем отступы, если размер экрана уменьшается
     if (screenWidth < 393) {
       topPadding = ScreenUtil().setWidth(40);
-      // Уменьшаем размеры карточек и изображений
       cardWidth = ScreenUtil().setWidth(140);
       cardImageHeight = ScreenUtil().setHeight(102);
       cardImageWidth = ScreenUtil().setWidth(104);
@@ -184,7 +182,7 @@ class WelcomeWidget extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(right: ScreenUtil().setWidth(16)),
+                padding: EdgeInsets.only(right: leftPadding),
                 child: Icon(
                   Icons.chevron_right,
                   size: ScreenUtil().setSp(24),
@@ -205,20 +203,32 @@ class WelcomeWidget extends StatelessWidget {
                   itemCount: flowerNotifier.flowers.length,
                   itemBuilder: (context, index) {
                     final flower = flowerNotifier.flowers[index];
-                    return Container(
-                      width: cardImageWidth,
-                      margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(8)),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(cardBorderRadius),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.25),
-                            blurRadius: 4,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
+                    return GestureDetector(
+                        onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FlowerDetailsPage(flower: flower),
+                        ),
+                      );
+                    },
+                    child: Container(
+                    width: cardImageWidth,
+                    margin: EdgeInsets.only(
+                    left: index == 0 ? 0 : ScreenUtil().setWidth(8),
+                    right: ScreenUtil().setWidth(8),
+                    ),
+                    decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(cardBorderRadius),
+                    color: Colors.white,
+                    boxShadow: [
+                    BoxShadow(
+                    color: Colors.black.withOpacity(0.25),
+                    blurRadius: 4,
+                    offset: const Offset(0, 4),
+                    ),
+                    ],
+                    ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -277,6 +287,7 @@ class WelcomeWidget extends StatelessWidget {
                           ),
                         ],
                       ),
+                    ),
                     );
                   },
                 );
@@ -300,7 +311,7 @@ class WelcomeWidget extends StatelessWidget {
                     'Popular flowers at this month:',
                     style: GoogleFonts.nunito(
                       color: Colors.black,
-                      fontSize: ScreenUtil().setSp(18),
+                      fontSize: MediaQuery.of(context).size.width < 393 ? 16 : ScreenUtil().setSp(18),
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.5,
                     ),
@@ -496,7 +507,7 @@ class YourCardWidget extends StatelessWidget {
                   child: Text(
                     cardText,
                     style: TextStyle(
-                      fontSize: ScreenUtil().setSp(14),
+                      fontSize: MediaQuery.of(context).size.width < 393 ? 12 : ScreenUtil().setSp(14),
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),

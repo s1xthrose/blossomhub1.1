@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -116,6 +117,9 @@ class WaterlogAddPage extends StatelessWidget {
             TextField(
               controller: wateringFrequencyController,
               keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly,
+              ],
               decoration: InputDecoration(
                 hintText: '',
                 border: OutlineInputBorder(
@@ -161,8 +165,8 @@ class WaterlogAddPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: SizedBox(
-        width: ScreenUtil().setWidth(56),
-        height: ScreenUtil().setHeight(56),
+        width: 56,
+        height: 56,
         child: FloatingActionButton(
           onPressed: () {
             createWateringSchedule(context);
@@ -174,7 +178,7 @@ class WaterlogAddPage extends StatelessWidget {
           child: Icon(
             Icons.check,
             color: Colors.white,
-            size: ScreenUtil().setSp(32),
+            //size: ScreenUtil().setSp(32),
           ),
         ),
       ),
@@ -280,14 +284,14 @@ class _YourFlowersDropdownState extends State<YourFlowersDropdown> {
                                     ? Image.file(
                                   File(selectedFlower!.imageUrl),
                                   fit: BoxFit.cover,
-                                  width: ScreenUtil().setWidth(30),
-                                  height: ScreenUtil().setHeight(30),
+                                  width: 30,
+                                  height: 30,
                                 )
                                     : Image.asset(
                                   'assets/placeholder_image.png',
                                   fit: BoxFit.cover,
-                                  width: ScreenUtil().setWidth(30),
-                                  height: ScreenUtil().setHeight(30),
+                                  width: 30,
+                                  height: 30,
                                 ),
                               ),
                             ),
@@ -342,7 +346,7 @@ class _YourFlowersDropdownState extends State<YourFlowersDropdown> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12)),
             ),
-            padding: EdgeInsets.all(ScreenUtil().setWidth(12)),
+            padding: EdgeInsets.only(top: 12.h, bottom: 12.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -351,19 +355,20 @@ class _YourFlowersDropdownState extends State<YourFlowersDropdown> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(30)),
-                        child: selectedFlower!.imageUrl.isNotEmpty &&
+                        child: selectedFlower != null &&
+                            selectedFlower!.imageUrl.isNotEmpty &&
                             File(selectedFlower!.imageUrl).existsSync()
                             ? Image.file(
                           File(selectedFlower!.imageUrl),
                           fit: BoxFit.cover,
-                          width: ScreenUtil().setWidth(30),
-                          height: ScreenUtil().setHeight(30),
+                          width: 30,
+                          height: 30,
                         )
                             : Image.asset(
                           'assets/placeholder_image.png',
                           fit: BoxFit.cover,
-                          width: ScreenUtil().setWidth(30),
-                          height: ScreenUtil().setHeight(30),
+                          width: 30,
+                          height: 30,
                         ),
                       ),
                       SizedBox(width: ScreenUtil().setWidth(10)),
@@ -390,7 +395,7 @@ class _YourFlowersDropdownState extends State<YourFlowersDropdown> {
                   ),
                 Icon(
                   Icons.chevron_right,
-                  size: ScreenUtil().setSp(26),
+                  //size: ScreenUtil().setSp(26),
                   color: const Color.fromRGBO(210, 59, 106, 0.7),
                 ),
               ],

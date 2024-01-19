@@ -77,6 +77,8 @@ class _YourFlowerAddPageState extends State<YourFlowerAddPage> {
       );
 
       Navigator.pop(context);
+
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => yourflow.YourFlowPage()));
     }
   }
 

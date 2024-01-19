@@ -127,7 +127,7 @@ class _WaterlogPageState extends State<WaterlogPage> {
                                     Text(
                                       'Last watering $daysSinceLastWatering days ago. ',
                                       style: GoogleFonts.nunito(
-                                        fontSize: 14.0,
+                                        fontSize: MediaQuery.of(context).size.width < 393 ? 12 : ScreenUtil().setSp(14),
                                         fontWeight: FontWeight.w600,
                                         color: textColor,
                                         letterSpacing: 0.5,
@@ -137,7 +137,7 @@ class _WaterlogPageState extends State<WaterlogPage> {
                                     'Next one in ${daysUntilNextWatering
                                         .abs()} days',
                                     style: GoogleFonts.nunito(
-                                      fontSize: 14.0,
+                                      fontSize: MediaQuery.of(context).size.width < 393 ? 12 : ScreenUtil().setSp(14),
                                       fontWeight: FontWeight.w600,
                                       color: textColor,
                                       letterSpacing: 0.5,
@@ -164,7 +164,7 @@ class _WaterlogPageState extends State<WaterlogPage> {
                               ),
                             );
                           },
-                          contentPadding: EdgeInsets.all(8),
+                          contentPadding: EdgeInsets.only(left: 14.w),
                         ),
                         if (notificationText.isNotEmpty)
                           Positioned(
@@ -181,7 +181,7 @@ class _WaterlogPageState extends State<WaterlogPage> {
                                 child: Text(
                                   notificationText,
                                   style: GoogleFonts.nunito(
-                                    fontSize: 11.0,
+                                    fontSize: MediaQuery.of(context).size.width < 393 ? 9 : ScreenUtil().setSp(11),
                                     fontWeight: FontWeight.w700,
                                     color: Color.fromRGBO(235, 255, 240, 1),
                                     letterSpacing: 0.1,

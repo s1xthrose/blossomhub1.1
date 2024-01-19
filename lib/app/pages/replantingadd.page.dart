@@ -68,34 +68,48 @@ class ReplantingAddPage extends StatelessWidget {
           children: [
             const YourFlowersDropdown(),
             SizedBox(height: ScreenUtil().setHeight(16)),
-            GestureDetector(
-              onTap: () {
-                _selectDate(context);
+            TextFormField(
+              controller: replantingDateController,
+              onTap: () async {
+                await _selectDate(context);
               },
-              child: Container(
-                width: ScreenUtil().setWidth(361),
-                height: ScreenUtil().setHeight(56),
-                padding: EdgeInsets.all(ScreenUtil().setWidth(12)),
-                decoration: BoxDecoration(
-                  border: Border.all(
+              readOnly: true,
+              decoration: InputDecoration(
+                labelText: 'Replanting date',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(ScreenUtil().setWidth(4)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(ScreenUtil().setWidth(4)),
+                  borderSide: BorderSide(
                     color: const Color.fromRGBO(70, 180, 48, 1),
                     width: ScreenUtil().setWidth(1),
                   ),
-                  borderRadius: BorderRadius.circular(ScreenUtil().setWidth(4)),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Replanting date',
-                      style: GoogleFonts.nunito(
-                        textStyle: TextStyle(
-                          fontSize: ScreenUtil().setSp(14),
-                          color: const Color.fromRGBO(70, 180, 48, 1),
-                        ),
-                      ),
-                    ),
-                  ],
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(ScreenUtil().setWidth(4)),
+                  borderSide: BorderSide(
+                    color: const Color.fromRGBO(70, 180, 48, 1),
+                    width: ScreenUtil().setWidth(1),
+                  ),
+                ),
+                labelStyle: GoogleFonts.nunito(
+                  textStyle: TextStyle(
+                    fontSize: ScreenUtil().setSp(14),
+                    color: const Color.fromRGBO(70, 180, 48, 1),
+                  ),
+                ),
+                hintStyle: GoogleFonts.nunito(
+                  textStyle: TextStyle(
+                    fontSize: ScreenUtil().setSp(14),
+                    color: const Color.fromRGBO(70, 180, 48, 1),
+                  ),
+                ),
+              ),
+              style: GoogleFonts.nunito(
+                textStyle: TextStyle(
+                  fontSize: ScreenUtil().setSp(14),
+                  color: Colors.black,
                 ),
               ),
             ),
@@ -104,8 +118,8 @@ class ReplantingAddPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: SizedBox(
-        width: ScreenUtil().setWidth(56),
-        height: ScreenUtil().setHeight(56),
+        width: 56,
+        height: 56,
         child: FloatingActionButton(
           onPressed: () async {
             await createReplantingSchedule(context);
@@ -117,7 +131,7 @@ class ReplantingAddPage extends StatelessWidget {
           child: Icon(
             Icons.check,
             color: Colors.white,
-            size: ScreenUtil().setSp(32),
+            //size: ScreenUtil().setSp(32),
           ),
         ),
       ),
@@ -209,14 +223,14 @@ class _YourFlowersDropdownState extends State<YourFlowersDropdown> {
                                     ? Image.file(
                                   File(selectedFlower!.imageUrl),
                                   fit: BoxFit.cover,
-                                  width: ScreenUtil().setWidth(30),
-                                  height: ScreenUtil().setHeight(30),
+                                  width: 30,
+                                  height: 30,
                                 )
                                     : Image.asset(
                                   'assets/placeholder_image.png',
                                   fit: BoxFit.cover,
-                                  width: ScreenUtil().setWidth(30),
-                                  height: ScreenUtil().setHeight(30),
+                                  width: 30,
+                                  height: 30,
                                 ),
                               ),
                             ),
@@ -273,7 +287,7 @@ class _YourFlowersDropdownState extends State<YourFlowersDropdown> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12)),
             ),
-            padding: EdgeInsets.all(ScreenUtil().setWidth(12)),
+            padding: EdgeInsets.only(top: 12.h, bottom: 12.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -288,14 +302,14 @@ class _YourFlowersDropdownState extends State<YourFlowersDropdown> {
                             ? Image.file(
                           File(selectedFlower!.imageUrl),
                           fit: BoxFit.cover,
-                          width: ScreenUtil().setWidth(30),
-                          height: ScreenUtil().setHeight(30),
+                          width: 30,
+                          height: 30,
                         )
                             : Image.asset(
                           'assets/placeholder_image.png',
                           fit: BoxFit.cover,
-                          width: ScreenUtil().setWidth(30),
-                          height: ScreenUtil().setHeight(30),
+                          width: 30,
+                          height: 30,
                         ),
                       ),
                       SizedBox(width: ScreenUtil().setWidth(10)),
@@ -322,7 +336,7 @@ class _YourFlowersDropdownState extends State<YourFlowersDropdown> {
                   ),
                 Icon(
                   Icons.chevron_right,
-                  size: ScreenUtil().setSp(26),
+                  //size: ScreenUtil().setSp(26),
                   color: const Color.fromRGBO(210, 59, 106, 0.7),
                 ),
               ],

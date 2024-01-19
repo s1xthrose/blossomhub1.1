@@ -60,13 +60,12 @@ class JournalCardWidget extends StatelessWidget {
 
     double screenWidth = MediaQuery.of(context).size.width;
 
-    // Уменьшаем отступы, если размер экрана уменьшается
     if (screenWidth < 393) {
       topPadding = ScreenUtil().setHeight(22);
     }
 
     double titleFontSize = screenWidth < 393 ? ScreenUtil().setSp(15) : ScreenUtil().setSp(17);
-    double descriptionFontSize = screenWidth < 393 ? ScreenUtil().setSp(13) : ScreenUtil().setSp(15);
+    double descriptionFontSize = screenWidth < 393 ? ScreenUtil().setSp(12) : ScreenUtil().setSp(15);
 
     return GestureDetector(
       onTap: () {
@@ -113,6 +112,7 @@ class JournalCardWidget extends StatelessWidget {
               SizedBox(height: 14.h),
               Text(
                 description,
+                maxLines: 5,
                 style: GoogleFonts.nunito(
                   fontSize: descriptionFontSize,
                   fontWeight: FontWeight.w400,

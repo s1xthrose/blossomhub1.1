@@ -103,16 +103,6 @@ class YourFlowPageContent extends StatelessWidget {
     }
   }
 
-  Future<Uint8List> _getResizedImage(String imageUrl) async {
-    if (imageUrl.isNotEmpty && File(imageUrl).existsSync()) {
-      File imageFile = File(imageUrl);
-      return await imageFile.readAsBytes();
-    }
-
-    ByteData byteData = await rootBundle.load('assets/placeholder_image.png');
-    return byteData.buffer.asUint8List();
-  }
-
   @override
   Widget build(BuildContext context) {
     WateringProvider wateringProvider = Provider.of<WateringProvider>(context);
@@ -162,7 +152,7 @@ class YourFlowPageContent extends StatelessWidget {
                   vertical: ScreenUtil().setHeight(8.0),
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white, // Установите белый цвет для карточек
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12)),
                   boxShadow: [
                     BoxShadow(
@@ -191,28 +181,7 @@ class YourFlowPageContent extends StatelessWidget {
                           padding: EdgeInsets.all(ScreenUtil().setWidth(8.0)),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12)),
-                            child: FutureBuilder(
-                              future: _getResizedImage(flower.imageUrl),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState == ConnectionState.done) {
-                                  return Image.memory(
-                                    snapshot.data as Uint8List,
-                                    fit: BoxFit.cover,
-                                    width: ScreenUtil().setWidth(139.0),
-                                    height: ScreenUtil().setHeight(137.0),
-                                  );
-                                } else {
-                                  return Container(
-                                    width: ScreenUtil().setWidth(139.0),
-                                    height: ScreenUtil().setHeight(137.0),
-                                    color: Colors.grey,
-                                    child: const Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
+                            child: _getResizedImage(flower.imageUrl),
                           ),
                         ),
                         Flexible(
@@ -278,25 +247,43 @@ class YourFlowPageContent extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            final newFlower = await Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const YourFlowerAddPage()),
-            );
+        onPressed: () async {
+          final newFlower = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const YourFlowerAddPage()),
+          );
 
-            if (newFlower != null) {
-              Provider.of<FlowerNotifier>(context, listen: false).addFlower(newFlower);
-              _saveFlowers(context);
-            }
-          },
-          backgroundColor: const Color.fromRGBO(210, 59, 106, 1),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(ScreenUtil().setWidth(16)),
-          ),
-          mini: false,
-          child: const Icon(Icons.add, color: Colors.white,)
+          if (newFlower != null) {
+            Provider.of<FlowerNotifier>(context, listen: false).addFlower(newFlower);
+            _saveFlowers(context);
+          }
+        },
+        backgroundColor: const Color.fromRGBO(210, 59, 106, 1),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(ScreenUtil().setWidth(16)),
+        ),
+        mini: false,
+        child: const Icon(Icons.add, color: Colors.white,),
       ),
     );
+  }
+
+  Widget _getResizedImage(String imageUrl) {
+    if (imageUrl.isNotEmpty && File(imageUrl).existsSync()) {
+      return Image.file(
+        File(imageUrl),
+        fit: BoxFit.cover,
+        width: ScreenUtil().setWidth(139.0),
+        height: ScreenUtil().setHeight(137.0),
+      );
+    } else {
+      return Image.asset(
+        'assets/placeholder_image.png',
+        fit: BoxFit.cover,
+        width: ScreenUtil().setWidth(139.0),
+        height: ScreenUtil().setHeight(137.0),
+      );
+    }
   }
 
   Color _calculateIconColor(FlowerData? lastWateringRecord) {
