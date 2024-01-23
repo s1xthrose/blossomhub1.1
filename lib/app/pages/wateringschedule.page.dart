@@ -273,8 +273,8 @@ class _WateringSchedulePageState extends State<WateringSchedulePage> {
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(16)),
         child: SizedBox(
-          width: ScreenUtil().setWidth(229),
-          height: ScreenUtil().setHeight(45),
+          width: 229,
+          height: 45,
           child: ElevatedButton(
             onPressed: () {
               _makeWateringToday();
@@ -282,15 +282,14 @@ class _WateringSchedulePageState extends State<WateringSchedulePage> {
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color.fromRGBO(210, 59, 106, 1),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                  ScreenUtil().setWidth(100),
+                borderRadius: BorderRadius.circular(100,
                 ),
               ),
             ),
             child: Text(
               'Made watering today',
               style: GoogleFonts.nunito(
-                fontSize: ScreenUtil().setSp(15),
+                fontSize: 15,
                 fontWeight: FontWeight.w600,
                 color: Colors.white
               ),
