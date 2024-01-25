@@ -19,23 +19,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   void initState() {
     super.initState();
-    _checkFirstRun();
-  }
-
-  _checkFirstRun() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isFirstRun = prefs.getBool('isFirstRun') ?? true;
-
-    if (isFirstRun) {
-      prefs.setBool('isFirstRun', false);
-    } else {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
-        // Если это не первый запуск, переход
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-      });
-    }
   }
 
   @override
